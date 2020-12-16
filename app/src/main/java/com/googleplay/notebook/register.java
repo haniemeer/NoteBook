@@ -1,5 +1,6 @@
 package com.googleplay.notebook;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -13,9 +14,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class register extends AppCompatActivity {
  TextView textaccount;
@@ -47,7 +54,7 @@ public class register extends AppCompatActivity {
         textaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent intent=new Intent(register.this,com.googleplay.notebook.account.class);
+               //gharar gereftane activity login shodeh// Intent intent=new Intent(register.this,com.googleplay.notebook.account.class);
                 //startActivity(intent);
             }
         });
@@ -66,10 +73,34 @@ public class register extends AppCompatActivity {
                 else if (textpassword.length()<8){
                     Toast.makeText(register.this,"your pass must be longer than 8",Toast.LENGTH_LONG).show();
                 }
-                //else registering(textname,textemail,textpassword);
+                else registering(textname,textemail,textpassword);
             }
 
         });
 
+    }
+    public void registering(final String name,final String email,final String password){
+        auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                HashMap<String,Object> data= new HashMap<>();
+                data.put("name" , name);
+                data.put("email",email);
+                data.put("password",password);
+                database.child("username").child(auth.getCurrentUser().getUid()).setValue(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            progdialog.dismiss();
+                            Toast.makeText(register.this,"you are registered.",Toast.LENGTH_LONG).show();
+                            Intent intent=new Intent(register.this,MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+            }
+        });
     }
 }
