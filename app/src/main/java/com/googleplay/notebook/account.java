@@ -1,5 +1,6 @@
 package com.googleplay.notebook;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -9,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class account extends AppCompatActivity {
@@ -33,8 +37,17 @@ public class account extends AppCompatActivity {
                      if (TextUtils.isEmpty(emailtext)||TextUtils.isEmpty(passwordtext)){
                          Toast.makeText(account.this,"fields are not filled",Toast.LENGTH_LONG).show();
                      }
-                    // else
-                         //accountlogin(emailtext,passwordtext);
+                    else
+                         accountlogin(emailtext,passwordtext);
+            }
+        });
+    }
+
+    public void accountlogin(String emailaddress, String passwordnumber) {
+        firebaseauth.signInWithEmailAndPassword(emailaddress,passwordnumber).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                
             }
         });
     }
