@@ -58,6 +58,11 @@ public class account extends AppCompatActivity {
              }
 
             }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(account.this,e.getMessage(),Toast.LENGTH_LONG).show();
+            }
         });
     }
 
