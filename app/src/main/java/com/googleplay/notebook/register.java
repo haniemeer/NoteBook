@@ -54,8 +54,8 @@ public class register extends AppCompatActivity {
         textaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //gharar gereftane activity login shodeh// Intent intent=new Intent(register.this,com.googleplay.notebook.account.class);
-                //startActivity(intent);
+                Intent intent=new Intent(register.this,com.googleplay.notebook.account.class);
+                startActivity(intent);
             }
         });
 
