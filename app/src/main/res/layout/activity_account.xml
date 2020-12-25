@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="casual"
-        android:text="pass word :"
+        android:text="password :"
         android:textColor="#070707"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
